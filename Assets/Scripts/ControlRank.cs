@@ -12,7 +12,7 @@ public class ControlRank : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		Debug.Log ("Pontuacao: " + rank.ToString());
-		//points.text = rank.ToString ();	
+		//Debug.Log ("Pontuacao: " + rank.ToString());
+		points.text = rank.ToString ();	
 	}
 }
