@@ -9,7 +9,7 @@ public class Cannon : MonoBehaviour
 	public GameObject cannonBall;
 	public GameObject cannon;
 	public AudioClip shootSound;
-	public bool isActived = true;
+	public bool isActived = false;
 
 	// Variaveis privadas
 	private AudioSource audioSource;
