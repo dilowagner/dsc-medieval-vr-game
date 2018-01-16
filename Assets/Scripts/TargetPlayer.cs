@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetPlayer : MonoBehaviour 
+namespace Assets.Scripts
 {
+    public class TargetPlayer : MonoBehaviour
+    {
+    }
 }

@@ -3,21 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CannonEvent : EventTrigger
+namespace Assets.Scripts
 {
-	public override void OnPointerClick(PointerEventData eventData)
+	public class CannonEvent : EventTrigger
 	{
-		base.OnPointerClick (eventData);
-	}
+		public override void OnPointerClick(PointerEventData eventData)
+		{
+			base.OnPointerClick(eventData);
+		}
 
-	public override void OnPointerDown(PointerEventData eventData)
-	{
-		base.OnPointerDown (eventData);
+		public override void OnPointerDown(PointerEventData eventData)
+		{
+			base.OnPointerDown(eventData);
+			// Desativa os componentes do Player
+			var bow = FindObjectOfType<Bow>();
+			if (bow != null)
+			{
+				bow.gameObject.SetActive(false);
+			}
 
-		// Desativa os componentes do Player
-		FindObjectOfType<Bow>().gameObject.SetActive(false);
-		var rvPlayer = FindObjectOfType<RVPlayer> ();
-		rvPlayer.SetMoviment(!rvPlayer.moviment);
-		GetComponent<Cannon> ().isActived = true;
+			var rvPlayer = FindObjectOfType<RVPlayer>();
+			rvPlayer.SetMoviment(!rvPlayer.moviment);
+			GetComponent<Cannon>().isActived = true;
+		}
 	}
 }

@@ -2,47 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class TerrainMoveMechanism : MonoBehaviour 
+namespace Assets.Scripts
 {
-	public GameObject quad; // Quadrado do Piso
-	public int lengthX = 70; // Tamanho do piso em X
-	public int lengthZ = 70; // Tamanho do piso em Z
-
-	public float offSetX = 0.5f; // Ajustes de distância do centro dos quadrados em relação ao terreno
-	public float offSetZ = 0.5f; 
-
-	[Range(0.01f, 0.2f)]
-	public float height = 0.1f; // altura do quadriculado em relação ao piso
-
-	private Vector3 posInit; // Posição inicial do piso.
-
-	// Use this for initialization
-	void Start () 
+	[RequireComponent(typeof(AudioSource))]
+	public class TerrainMoveMechanism : MonoBehaviour
 	{
-		// posição inicial do terreno
-		posInit = new Vector3(
-			transform.position.x, 
-			transform.position.y + height, 
-			transform.position.z
-		);
+		public GameObject quad; // Quadrado do Piso
+		public int lengthX = 70; // Tamanho do piso em X
+		public int lengthZ = 70; // Tamanho do piso em Z
 
-		for (int x = 0; x < lengthX; x++) 
+		public float offSetX = 0.5f; // Ajustes de distância do centro dos quadrados em relação ao terreno
+		public float offSetZ = 0.5f;
+
+		[Range(0.01f, 0.2f)] public float height = 0.1f; // altura do quadriculado em relação ao piso
+
+		private Vector3 posInit; // Posição inicial do piso.
+
+		// Use this for initialization
+		public void Start()
 		{
-			for (int z = 0; z < lengthZ; z++) 
+			// posição inicial do terreno
+			posInit = new Vector3(
+				transform.position.x,
+				transform.position.y + height,
+				transform.position.z
+			);
+
+			for (var x = 0; x < lengthX; x++)
 			{
-				GameObject quadriculado = Instantiate (quad);	
-				quadriculado.name = "PlayerPosition";
-				quadriculado.transform.tag = "AllowedPosition";
+				for (var z = 0; z < lengthZ; z++)
+				{
+					var quadriculado = Instantiate(quad);
+					quadriculado.name = "PlayerPosition";
+					quadriculado.transform.tag = "AllowedPosition";
 
-				quadriculado.transform.position = new Vector3 (
-					posInit.x + x + offSetX,
-					posInit.y,
-					posInit.z + z + offSetZ
-				);
+					quadriculado.transform.position = new Vector3(
+						posInit.x + x + offSetX,
+						posInit.y,
+						posInit.z + z + offSetZ
+					);
 
-				quadriculado.transform.parent = transform;
-			}	
+					quadriculado.transform.parent = transform;
+				}
+			}
 		}
 	}
 }

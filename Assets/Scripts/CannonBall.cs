@@ -1,17 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CannonBall : MonoBehaviour
+namespace Assets.Scripts
 {
-	public void TimeToDestroy()
+	public class CannonBall : MonoBehaviour
 	{
-		StartCoroutine (DestroyBall());	
-	}
+		public void TimeToDestroy()
+		{
+			StartCoroutine(DestroyBall());
+		}
 
-	// Destruir a bola após um tempo
-	IEnumerator DestroyBall()
-	{
-		yield return new WaitForSeconds (7);
-		Destroy (this.gameObject);
+		// Destruir a bola após um tempo
+		private IEnumerator DestroyBall()
+		{
+			yield return new WaitForSeconds(7);
+			Destroy(this.gameObject);
+		}
 	}
 }

@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class Arrow : MonoBehaviour 
+namespace Assets.Scripts
 {
-	private AudioSource audioSource;
-	public AudioClip impactArrow;
+	[RequireComponent(typeof(AudioSource))]
+	public class Arrow : MonoBehaviour
+	{
+		private AudioSource _audioSource;
+		public AudioClip ImpactArrow;
 
-	// Use this for initialization
-	void Start () 
-	{
-		audioSource = GetComponent<AudioSource> ();	
-	}
-	
-	void OnCollisionEnter(Collision collision)
-	{
-		if (collision.gameObject.tag != "Arrow") 
+		// Use this for initialization
+		public void Start()
 		{
-			audioSource.clip = impactArrow;
-			audioSource.Play ();
+			_audioSource = GetComponent<AudioSource>();
+		}
 
-			Destroy (GetComponent<Rigidbody>());
-			Destroy (GetComponent<CapsuleCollider>());
+		public void OnCollisionEnter(Collision collision)
+		{
+			if (collision.gameObject.tag != "Arrow")
+			{
+				_audioSource.clip = ImpactArrow;
+				_audioSource.Play();
+
+				Destroy(GetComponent<Rigidbody>());
+				Destroy(GetComponent<CapsuleCollider>());
+			}
 		}
 	}
 }
