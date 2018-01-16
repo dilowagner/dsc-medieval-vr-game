@@ -16,7 +16,8 @@ public class CannonEvent : EventTrigger
 
 		// Desativa os componentes do Player
 		FindObjectOfType<Bow>().gameObject.SetActive(false);
-		//FindObjectOfType<RVPlayer> ();
+		var rvPlayer = FindObjectOfType<RVPlayer> ();
+		rvPlayer.SetMoviment(!rvPlayer.moviment);
 		GetComponent<Cannon> ().isActived = true;
 	}
 }

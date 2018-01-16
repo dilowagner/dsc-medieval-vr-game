@@ -21,6 +21,7 @@ public class RVPlayer : MonoBehaviour
 	private float startTime; // Tempo em que o usuário clicou
 	private float journeyLength; // Distância entre RVPlayer e ponto selecionado
 	private bool flagStop = false; // flag de parada de movimentação
+	public bool moviment = true;
 
 	// Use this for initialization
 	void Start () 
@@ -31,52 +32,65 @@ public class RVPlayer : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		// Raycasting de apontamento, selecionar os gameObjects da cena
-		Ray ray = cameraRayCasting.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-
-		// Obter o objeto apontado
-		if (Physics.Raycast (ray, out hit, distanceToMove)) 
+		if (moviment) 
 		{
-			//Debug.Log (hit.transform.position + " : " + hit.transform.name);	
-			float scaleArrow = Vector3.Distance(hit.transform.position, transform.position) / 13000;
-			arrowToMove.transform.localScale = new Vector3 (scaleArrow, scaleArrow, scaleArrow);
-			arrowToMove.transform.position = hit.transform.position;
-		}
+			// Raycasting de apontamento, selecionar os gameObjects da cena
+			Ray ray = cameraRayCasting.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0f));
 
-		// mecanismo de movimentação
-		if (GvrController.TouchDown || Input.GetMouseButtonDown (0)) 
-		{
-			if (Physics.Raycast (ray, out hit, distanceToMove)) 
-			{
-				if (hit.transform.tag == "AllowedPosition") 
-				{
-					audioSource.clip = clickSound;
-					audioSource.Play ();
+			// Obter o objeto apontado
+			if (Physics.Raycast (ray, out hit, distanceToMove)) {
+				//Debug.Log (hit.transform.position + " : " + hit.transform.name);	
+				float scaleArrow = Vector3.Distance (hit.transform.position, transform.position) / 13000;
+				arrowToMove.transform.localScale = new Vector3 (scaleArrow, scaleArrow, scaleArrow);
+				arrowToMove.transform.position = hit.transform.position;
+			}
 
-					startPoint = transform.position;
-					endPoint = hit.transform.position;
+			// mecanismo de movimentação
+			if (GvrController.TouchDown || Input.GetMouseButtonDown (0)) {
+				if (Physics.Raycast (ray, out hit, distanceToMove)) {
+					if (hit.transform.tag == "AllowedPosition") {
+						audioSource.clip = clickSound;
+						audioSource.Play ();
 
-					startTime = Time.time;
-					journeyLength = Vector3.Distance(startPoint, endPoint);
+						startPoint = transform.position;
+						endPoint = hit.transform.position;
 
-					flagStop = true;
+						startTime = Time.time;
+						journeyLength = Vector3.Distance (startPoint, endPoint);
+
+						flagStop = true;
+					}
+				}
+			}
+
+			if (flagStop) {
+				float distCoverd = (Time.time - startTime) * speed;
+				float fracJourney = distCoverd / journeyLength;
+				Vector3 move = Vector3.Lerp (startPoint, endPoint, fracJourney);
+
+				transform.position = move;
+
+				// Se player chegou a posição final
+				if (transform.position == endPoint) {
+					flagStop = false;
 				}
 			}
 		}
+	}
 
-		if (flagStop) 
+	public void SetMoviment(bool value)
+	{
+		moviment = value;
+		if (moviment) 
 		{
-			float distCoverd = (Time.time - startTime) * speed;
-			float fracJourney = distCoverd / journeyLength;
-			Vector3 move = Vector3.Lerp (startPoint, endPoint, fracJourney);
-
-			transform.position = move;
-
-			// Se player chegou a posição final
-			if (transform.position == endPoint) 
+			var cannons = FindObjectsOfType<Cannon> ();
+			foreach (Cannon cannon in cannons) 
 			{
-				flagStop = false;
+				cannon.isActived = false;
 			}
+
+			arrowToMove.SetActive (true);
+			bowAndArrow.SetActive (true);
 		}
 	}
 }
