@@ -5,3 +5,9 @@ Medieval Game using Unity and Google VR
 - C#
 - Unity 2017.03
 - Google VR package
+
+## License
+
+MIT License
+
+https://github.com/dilowagner/dsc-medieval-vr-game/blob/master/LICENSE
