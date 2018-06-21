@@ -1,5 +1,5 @@
 # dsc-medieval-vr-game
-Medieval Game using Unity and Google VR
+Medieval Game using Unity and Google VR - Study Project
 
 ## Requirements
 - C#
